@@ -26,19 +26,22 @@ INSTALL
 
 4. Add bundle in AppKernel.php:
 
-   new JQuero\MusicDownloadManagerBundle\MusicDownloadManagerBundle(),
+	new JQuero\MusicDownloadManagerBundle\MusicDownloadManagerBundle(),
 
 5. Add route resource in your route file config (/app/config/routing.yml):
 
 	music_download_manager:
+	
 		resource: "@MusicDownloadManagerBundle/Resources/config/routing.yml"
-		prefix:   /gdm
+		
+		prefix:   /mdm
+		
 
 6. Modify path to Directory download. This path is in file:
 
-   src/JQuero/MusicDownloadManagerBundle/Business/MusicDownloadManager.php
+	src/JQuero/MusicDownloadManagerBundle/Business/MusicDownloadManager.php
 
-   Change protected variable downloadDirectory.
+	Change protected variable downloadDirectory.
 
 
 USAGE
@@ -50,7 +53,7 @@ VIA WEB:
 
 2. Go to the project site
 
-  http://www.yoursite.com/mdm
+	http://www.yoursite.com/mdm
 
 3. Put a file as attachement or write the traks list in the textarea. Submit form. The tracks will be downloaded into your server.
 
@@ -62,38 +65,38 @@ VIA CONSOLE
 
 2. Go to your project root folder. For example:
 
-  cd < synfony_project_directory >
+	cd < synfony_project_directory >
 
 3. Type:
 
-  app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist.txt
+	app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist.txt
   
 This method accepts several files as parameter.
 
-  app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist1.txt /< path_to_file_with_tracks_urls >/playlist2.txt
+	app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist1.txt /< path_to_file_with_tracks_urls >/playlist2.txt
 
 
 TRACKS FILE FORMAT
 ==================
 
-download_directory:/home/jquero/Music/Flamenco
-
-http://www.goear.com/listen/1e642a2/que-trata-de-andalucia-los-asdlanticos
-
-http://www.goear.com/listen/5b7518f/no-puedo-quitar-mis-ojos-de-ti-tucara-
-
-
-download_directory:/home/jquero/Music/House
-
-http://myfreemp3.eu/l/5l3sa9ubmet/
-
-http://myfreemp3.eu/l/fsswqklulwu/
-
-
-download_directory:/home/jquero/Music/Flamenco
-
-http://youtu.be/HSwu0WH7Vfc
-
+	download_directory:/home/jquero/Music/Flamenco
+	
+	http://www.goear.com/listen/1e642a2/que-trata-de-andalucia-los-asdlanticos
+	
+	http://www.goear.com/listen/5b7518f/no-puedo-quitar-mis-ojos-de-ti-tucara-
+	
+	
+	download_directory:/home/jquero/Music/House
+	
+	http://myfreemp3.eu/l/5l3sa9ubmet/
+	
+	http://myfreemp3.eu/l/fsswqklulwu/
+	
+	
+	download_directory:/home/jquero/Music/Flamenco
+	
+	http://youtu.be/HSwu0WH7Vfc
+	
 
 OPTIONS
 =======
