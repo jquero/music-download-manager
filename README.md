@@ -31,9 +31,7 @@ INSTALL
 5. Add route resource in your route file config (/app/config/routing.yml):
 
 	music_download_manager:
-
 		resource: "@MusicDownloadManagerBundle/Resources/config/routing.yml"
-
 		prefix:   /gdm
 
 6. Modify path to Directory download. This path is in file:
@@ -52,7 +50,7 @@ VIA WEB:
 
 2. Go to the project site
 
-  http://www.yoursite.com/gdm
+  http://www.yoursite.com/mdm
 
 3. Put a file as attachement or write the traks list in the textarea. Submit form. The tracks will be downloaded into your server.
 
