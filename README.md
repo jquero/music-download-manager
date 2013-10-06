@@ -19,9 +19,11 @@ INSTALL
 1. We supose that you have installed and configured Symfony2.
 
 2. Download this repository
-
-  git clone https://github.com/jquero/music-download-manager.git
+	
+	
+	git clone https://github.com/jquero/music-download-manager.git
   
+	
 3. Copy src/JQuero folder existing in music-download-manager within your src Symfony folder.
 
 4. Add bundle in AppKernel.php:
@@ -29,7 +31,7 @@ INSTALL
 	new JQuero\MusicDownloadManagerBundle\MusicDownloadManagerBundle(),
 
 5. Add route resource in your route file config (/app/config/routing.yml):
-	
+
 	
 	music_download_manager:
 	
@@ -39,6 +41,7 @@ INSTALL
 		
 
 6. Modify path to Directory download. This path is in file:
+
 	
 	src/JQuero/MusicDownloadManagerBundle/Business/MusicDownloadManager.php
 	
@@ -53,9 +56,11 @@ VIA WEB:
 1. Open yor web browser.
 
 2. Go to the project site
-	
+
+		
 	http://www.yoursite.com/mdm
 	
+
 3. Put a file as attachement or write the traks list in the textarea. Submit form. The tracks will be downloaded into your server.
 
 
@@ -65,14 +70,19 @@ VIA CONSOLE
 1. Open a console.
 
 2. Go to your project root folder. For example:
-	
+
+		
 	cd < synfony_project_directory >
 	
+
 3. Type:
+
 	
 	app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist.txt
 	
+
 This method accepts several files as parameter.
+
 	
 	app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist1.txt /< path_to_file_with_tracks_urls >/playlist2.txt
 	
