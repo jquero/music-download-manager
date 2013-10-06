@@ -1,0 +1,7 @@
+parameters:
+#    j_quero_music_download_manager.example.class: JQuero\MusicDownloadManagerBundle\Example
+
+services:
+#    j_quero_music_download_manager.example:
+#        class: %j_quero_music_download_manager.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

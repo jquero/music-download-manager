@@ -1,0 +1,60 @@
+security:
+    encoders:
+#        JQuero\BodaBundle\Entity\User: sha512
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+                    bodaqueroymarien: { password: boda02082014, roles: [ 'ROLE_USER' ] }
+
+#        user_db:
+#            entity: { class: BodaBundle:User, property: sipote }
+
+    firewalls:
+        user_area:
+            pattern: ^/user
+            anonymous: ~
+            http_basic:
+                realm: "Secured Demo Area"
+#            form_login:
+#                check_path: boda_login
+#                login_path: boda_login_new
+#                use_referer: true
+#                failure_path: boda_login_new
+#                target_path_parameter: boda_albumes_index
+#            logout:
+#                path:   boda_logout
+#                target: boda_homepage
+            
+#        dev:
+#            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#
+#        login:
+#            pattern:  ^/demo/secured/login$
+#            security: false
+#
+#        secured_area:
+#            pattern:    ^/demo/secured/
+#            form_login:
+#                check_path: _security_check
+#                login_path: _demo_login
+#            logout:
+#                path:   _demo_logout
+#                target: _demo
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+#        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_USER }
+#        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

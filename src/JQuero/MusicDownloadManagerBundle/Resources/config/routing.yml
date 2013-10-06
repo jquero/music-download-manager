@@ -1,0 +1,8 @@
+mdm_homepage:
+  pattern:  /
+  defaults: { _controller: MusicDownloadManagerBundle:Default:index }
+
+mdm_download_tracks:
+  pattern:  /download
+  defaults: { _controller: MusicDownloadManagerBundle:Default:get }
+  methods: [POST]

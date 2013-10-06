@@ -1,0 +1,34 @@
+{% extends 'MusicDownloadManagerBundle::layout.html.twig' %}
+
+{% block content %}
+<h3>Music Download Manager</h3>
+
+<div class="breadcrumb"><a href="{{ path('mdm_homepage') }}">Volver</a></div>
+
+<div class="table">
+	<div class="header">
+		<div class="first-column">Track</div>
+		<div class="column">Folder</div>
+		<div class="column">Size</div>
+		<div class="column">Time</div>
+		<div class="last-column">Ratio</div>
+	</div>
+{% for track in tracks %}
+		<div class="row">
+			<div class="first-column">{{ track.trackName }}</div>
+			<div class="column">{{ track.file }}</div>
+			<div class="column">{{ track.size }}</div>
+			<div class="column">{{ track.time }}</div>
+			<div class="last-column">{{ track.rate }}</div>
+		</div>
+		{% if track.messages %}
+			<div class="messages-row">
+				{% for message in track.messages %}
+					<div>{{ message }}</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+{% endfor %}
+</div>
+
+{% endblock %}

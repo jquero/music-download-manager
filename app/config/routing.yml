@@ -1,0 +1,7 @@
+music_download_manager:
+    resource: "@MusicDownloadManagerBundle/Resources/config/routing.yml"
+    prefix:   /mdm
+
+boda:
+    resource: "@BodaBundle/Resources/config/routing.yml"
+    prefix:   /

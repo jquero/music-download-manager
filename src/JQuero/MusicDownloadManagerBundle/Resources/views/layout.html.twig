@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<title>Goear Music Download Manager</title>
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+			
+		{% stylesheets '@MusicDownloadManagerBundle/Resources/public/css/*' filter='cssrewrite' %}
+			<link rel="stylesheet" href="{{ asset_url }}" />
+		{% endstylesheets %}
+			
+	</head>
+	<body>
+		{% for flashMessage in app.session.flashbag.get('notice') %}
+			<div class="flash-message">
+				<em>Notice</em>: {{ flashMessage }}
+			</div>
+		{% endfor %}
+
+		<div class="block">
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>

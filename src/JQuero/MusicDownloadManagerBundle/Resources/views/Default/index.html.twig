@@ -1,0 +1,18 @@
+{% extends 'MusicDownloadManagerBundle::layout.html.twig' %}
+
+{% block content %}
+<h3>Music Download Manager</h3>
+
+<div class="form">
+	<form action="{{ path( 'mdm_download_tracks' ) }}" method="post" enctype="multipart/form-data">
+		<textarea name="tracks" rows="25" cols="65"></textarea>
+		<br />
+		<input type="file" name="tracksFile" />
+		
+		<div class="buttons">
+			<input type="submit" value="Descargar" />
+		</div>
+	</form>
+</div>
+
+{% endblock %}
