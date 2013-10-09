@@ -12,6 +12,8 @@ class MusicDownloadManagerTrackLog {
 	
 	protected $trackName = null;
 	
+	protected $trackUrl = null;
+	
 	protected $elapsedTime = 0;
 	
 	protected $messages = array();
@@ -53,6 +55,14 @@ class MusicDownloadManagerTrackLog {
 
 	public function setTrackName( $trackName ) {
 		$this->trackName = $trackName;
+	}
+		
+	public function getTrackUrl() {
+		return $this->trackUrl;
+	}
+
+	public function setTrackUrl( $trackUrl ) {
+		$this->trackUrl = $trackUrl;
 	}
 
 	public function getElapsedTime() {

@@ -23,11 +23,11 @@ class DefaultController extends Controller {
 		if( $plainTextTracks ) $musicDownloadManager->addPlainTextTracks( $plainTextTracks );
 		
 		$log = $musicDownloadManager->download();
-		$tracks = $this->processMusicDownloadManagerLog( $log );
+		$tracks  = $this->processMusicDownloadManagerLog( $log );
 		
 		if( !$this->getRequest()->request->get( 'downloadZip' ) ){
 			return $this->render( 'MusicDownloadManagerBundle:Default:get.html.twig', 
-				array( 'downloadFolder' => $musicDownloadManager->getDownloadDirectoryPath(), 'tracks' => $tracks ) );
+				array( 'tracks' => $tracks ) );
 		
 		}
 	}
@@ -39,6 +39,7 @@ class DefaultController extends Controller {
 			$tracks[] = array(
 				'trackId' => $trackLog->getTrackId(),
 				'trackName' => $trackLog->getTrackName(),
+				'trackUrl' => $trackLog->getTrackUrl(),
 				'file' => $trackLog->getFile() ? $trackLog->getFile()->getPath() : false,
 				'size' => round( $trackLog->getFileSize(), 0 ) . ' ' . $trackLog->getMagnitude(),
 				'time' => $trackLog->getElapsedTime() . ' segs',

@@ -14,7 +14,6 @@ class MyFreeMp3HtmlParser {
 	
 	public function __construct( $data ) {
 		$this->setData( $data );
-		$this->parse();
 	}
 	
 	public function setData( $data ){
@@ -23,70 +22,64 @@ class MyFreeMp3HtmlParser {
 	}
 	
 	public function parse(){
-		$doc = new \DOMDocument();
 		
-		$doc->strictErrorChecking = false;
-		$doc->loadHTML( $this->data );
+		if( empty( $this->data ) ) throw new \Exception( 'Can not get track name from MyFreeMp3 because web service to get track names returned a empty response' );
 		
-		$xpath = new \DOMXPath( $doc );
-		
-		$i = 0;
-		$lis = $xpath->query( '//ul[@class="breadcrumb"]/li' );
-		
-		foreach( $lis as $li ){
-			switch ( $i ){
-				case 1:
-					$this->artistName = $li->nodeValue;
-					break;
-				
-				case 2: 
-					$this->songName = $li->nodeValue;
-					break;
+		try {
+			$doc = new \DOMDocument();
+
+			$doc->strictErrorChecking = false;
+			$doc->loadHTML( $this->data );
+
+			$xpath = new \DOMXPath( $doc );
+
+			$i = 0;
+			$lis = $xpath->query( '//ul[@class="breadcrumb"]/li' );
+
+			foreach( $lis as $li ){
+				switch ( $i ){
+					case 1:
+						$this->artistName = $li->nodeValue;
+						break;
+
+					case 2: 
+						$this->songName = $li->nodeValue;
+						break;
+				}
+
+				$i++;
 			}
-			
-			$i++;
+		} catch( \Exception $e ){
+			throw new \Exception( 'Error to parse HTML response: ' . $e->getMessage(), null, $e );
 		}
 	}
 	
 	protected function cleanData(){
-		$regexp = '/\/\/<!\[CDATA\[\n/';
-		$this->data = preg_replace( $regexp, '', $this->data);
+		if( ( $posStart = strpos( $this->data, '<ul class="breadcrumb">' ) ) !== false ){
+			$ulStart = substr( $this->data, $posStart, strlen( $this->data ) );
+			
+			if( ( $posEnd = strpos( $ulStart, '</ul>' ) ) !== false ){
+				$ulEnd = substr( $ulStart, 0, $posEnd + strlen( '</ul>' ) );
+			}
+		}
 		
-		$regexp = '/\n\/\/\]\]>\n/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/\t+/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/\n+/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/(\s){2,}/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/<script(.*?)>(.*?)<\/script>/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/<br>/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/<br\/>/';
-		$this->data = preg_replace( $regexp, '', $this->data);
-		
-		$regexp = '/<!--(.*?)-->/';
-		$this->data = preg_replace( $regexp, '', $this->data);
+		if( !empty( $ulEnd ) ){
+			$this->data = $ulEnd;
+		} else {
+			return "";
+		}
 	}
 	
 	public function getSongName(){
-		return $this->songName;
+		return \utf8_decode( $this->songName );
 	}
 	
 	public function getArtistName(){
-		return $this->artistName;
+		return \utf8_decode( $this->artistName );
 	}
 	
 	public function getAlbumName(){
-		return $this->albumName;
+		return \utf8_decode( $this->albumName );
 	}
 	
 	public function getTrackName(){

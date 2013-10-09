@@ -5,30 +5,35 @@
 
 <div class="breadcrumb"><a href="{{ path('mdm_homepage') }}">Volver</a></div>
 
-<div class="table">
-	<div class="header">
-		<div class="first-column">Track</div>
-		<div class="column">Folder</div>
-		<div class="column">Size</div>
-		<div class="column">Time</div>
-		<div class="last-column">Ratio</div>
-	</div>
-{% for track in tracks %}
-		<div class="row">
-			<div class="first-column">{{ track.trackName }}</div>
-			<div class="column">{{ track.file }}</div>
-			<div class="column">{{ track.size }}</div>
-			<div class="column">{{ track.time }}</div>
-			<div class="last-column">{{ track.rate }}</div>
-		</div>
+<table class="table downloaded-tracks">
+	<thead class="header">
+		<th class="first-column track-name">Track</th >
+		<th class="column url">Url</th >
+		<th class="column folder">Folder</th >
+		<th class="column number">Size</th >
+		<th class="column number">Time</th >
+		<th class="last-column number">Ratio</th >
+	</thead>
+	{% for track in tracks %}
+		<tr class="row">
+			<td class="first-column track-name">{{ track.trackName }}</td>
+			<td class="column url"><a href="{{ track.trackUrl }}" target="_blank">{{ track.trackUrl }}</a></td>
+			<td class="column folder">{{ track.file }}</td>
+			<td class="column right number">{{ track.size }}</td>
+			<td class="column right number">{{ track.time }}</td>
+			<td class="last-column number">{{ track.rate }}</td>
+		</tr>
 		{% if track.messages %}
-			<div class="messages-row">
-				{% for message in track.messages %}
-					<div>{{ message }}</div>
-				{% endfor %}
-			</div>
+			<tr class="messages-row">
+				<td class="column" colspan="6">
+					{% for message in track.messages %}
+						<div>{{ message }}</div>
+					{% endfor %}
+				</td>
+			</tr>
 		{% endif %}
-{% endfor %}
-</div>
+			
+	{% endfor %}
+</table>
 
 {% endblock %}

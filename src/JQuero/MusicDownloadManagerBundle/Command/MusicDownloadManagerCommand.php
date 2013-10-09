@@ -45,11 +45,16 @@ class MusicDownloadManagerCommand extends Command {
 	protected function processMusicDownloadManagerLog( MusicDownloadManagerLog $log ){
 		
 		foreach( $log->getTracksLog() as $trackLog ){
-			echo $trackLog->getTrackName() .
+			echo ( $trackLog->getTrackName() != '' ? $trackLog->getTrackName() : $trackLog->getTrackUrl() ) .
 					" | " . ( !is_null( $trackLog->getFile() ) ? $trackLog->getFile()->getPath() : '' ) .
 					" | " . round( $trackLog->getFileSize(), 0 ) . ' ' . $trackLog->getMagnitude() . 
 					" | " . $trackLog->getElapsedTime() . ' segs'. 
 					" | " . $trackLog->getRate() . ' ' . $trackLog->getMagnitude() . '/seg';
+
+			$arrayMsg = $trackLog->getMessages();
+			if( !empty( $arrayMsg ) ) $messages = \implode( ', ', $arrayMsg );
+			if( isset( $messages ) && $messages != '' ) echo ' | ' . $messages;
+
 			echo "\n";
 		}
 	}

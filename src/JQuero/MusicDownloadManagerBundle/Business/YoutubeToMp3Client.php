@@ -41,27 +41,34 @@ class YoutubeToMp3Client extends WgetClient implements MusicDownloadClientInterf
 		return '';
 	}
 
-	public function getTrackName( $trackUrl ) {
-		$trackInfo = $this->getTrackInfo( array( 'video_id' => $this->getTrackId( $trackUrl ) ) );
-		return $trackInfo->title . '.mp3';
+	public function getTrackName( $trackUrl, $trackNameAlt ) {
+		$trackId = $this->getTrackId( $trackUrl );
+		try {
+			$trackInfo = $this->getTrackInfo( array( 'video_id' => $trackId ) );
+			return \trim( $trackInfo->title ) . '.mp3';
+			
+		} catch( \Exception $e ){
+			$this->trackLog->addMessage( $e->getMessage() );
+			return ( empty( $trackNameAlt ) ? $this->getTrackId( $trackUrl ) : $trackNameAlt ). '.mp3';
+		}
 	}
 	
-	public function downloadTrackByUrl( $trackUrl ){
+	public function downloadTrackByUrl( $trackUrl, $trackNameAlt ){
 		$this->trackLog = new MusicDownloadManagerTrackLog();
 		
 		try {
 			$trackId = $this->getTrackId( $trackUrl );
-			$trackName = $this->getTrackName( $trackUrl );
+			$trackName = $this->getTrackName( $trackUrl, $trackNameAlt );
 			$hashParameter = $this->getHashParameter( $trackId );
-
-			$this->trackLog->setTrackId( $trackId );
-			$this->trackLog->setTrackName( $trackName );
 			
 			$time = \time();
 
 			$this->addOption( 'filename', $trackName );
 			$file = $this->downloadTrackByParams( array( 'video_id' => $trackId, 'h' => $hashParameter ) );
 			
+			$this->trackLog->setTrackId( $trackId );
+			$this->trackLog->setTrackName( $file->getFileName() );
+			$this->trackLog->setTrackUrl( $trackUrl );
 			$this->trackLog->setElapsedTime( \time() - $time );
 			$this->trackLog->setFile( $file );
 			
@@ -88,23 +95,29 @@ class YoutubeToMp3Client extends WgetClient implements MusicDownloadClientInterf
 	}
 
 	public function getHashParameter( $trackId ) {
-		$trackInfo = $this->getTrackInfo( array( 'video_id' => $trackId ) );
+		try {
+			$trackInfo = $this->getTrackInfo( array( 'video_id' => $trackId ) );
+			
+		} catch( \Exception $e ){
+			$this->trackLog->addMessage( $e->getMessage() );
+			return $trackId;
+		}
 		return $trackInfo->h;
 	}
 	
 	protected function getTrackInfo( $params = array() ){
 		$resource = $this->getServerResourceTrackInfo();
-		
+
 		$this->validateResourceParams( $resource, $params );
-		
+
 		$trackId = $params[ 'video_id' ];
-		if( isset( $this->tracksInfo[ $trackId ] ) ) return $this->tracksInfo[ $trackId ];
-		
+		if ( isset( $this->tracksInfo[ $trackId ] ) ) return $this->tracksInfo[ $trackId ];
+
 		$trackInfo = $this->getRest( $resource, $params );
-		$str = substr( $trackInfo, 7, strlen( $trackInfo ) - 8 );
-		
-		 $this->tracksInfo[ $trackId ] = json_decode( $str );
-		 return $this->tracksInfo[ $trackId ];
+		$str = substr($trackInfo, 7, strlen($trackInfo) - 8);
+
+		$this->tracksInfo[ $trackId ] = json_decode($str);
+		return $this->tracksInfo[ $trackId ];
 	}
 	
 	public function match( $url ) {

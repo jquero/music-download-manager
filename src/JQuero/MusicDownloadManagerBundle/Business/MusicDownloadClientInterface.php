@@ -6,21 +6,23 @@ interface MusicDownloadClientInterface {
 	
 	/**
 	 * Get the track id from track url.
-	 * @param $trackFriendlyUrl Url for the track in some server.
+	 * @param $trackUrl Url for the track in some server.
 	 */
-	public function getTrackId( $trackFriendlyUrl );
+	public function getTrackId( $trackUrl );
 	
 	/**
 	 * Get the track name. This name will be the file's name when track will be saved.
-	 * @param $trackFriendlyUrl Url for the track in some server.
+	 * @param $trackUrl Url for the track in some server.
+	 * @param $trackNameAlt Alternative track name if it can't be got any way.
 	 */
-	public function getTrackName( $trackFriendlyUrl );
+	public function getTrackName( $trackUrl, $trackNameAlt );
 	
 	/**
 	 * Download the track in your sever using the url for the track.
-	 * @param $trackFriendlyUrl Url for the track in some server.
+	 * @param $trackUrl Url for the track in some server.
+	 * @param $trackNameAlt Alternative track name if it can't be got any way.
 	 */
-	public function downloadTrackByUrl( $trackFriendlyUrl );
+	public function downloadTrackByUrl( $trackUrl, $trackNameAlt );
 	
 }
 

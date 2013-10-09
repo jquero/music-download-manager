@@ -36,21 +36,18 @@ class GoearClient extends WgetClient implements MusicDownloadClientInterface {
 		return '';
 	}
 	
-	public function getTrackName( $trackUrl ){
+	public function getTrackName( $trackUrl, $trackNameAlt ){
 		$parts = explode( '/', $trackUrl );
-		if( count( $parts ) == 6 ) return str_replace( '-', ' ', $parts[5] ) . '.mp3';
-		else return '';
+		if( count( $parts ) == 6 ) return \trim( str_replace( '-', ' ', $parts[5] ) ) . '.mp3';
+		else return $trackNameAlt;
 	}
 	
-	public function downloadTrackByUrl( $trackUrl ){
+	public function downloadTrackByUrl( $trackUrl, $trackNameAlt ){
 		$this->trackLog = new MusicDownloadManagerTrackLog();
 		
 		try {
 			$trackId = $this->getTrackId( $trackUrl );
-			$trackName = $this->getTrackName( $trackUrl );
-
-			$this->trackLog->setTrackId( $trackId );
-			$this->trackLog->setTrackName( $trackName );
+			$trackName = $this->getTrackName( $trackUrl, $trackNameAlt );
 
 			$this->addOption( 'filename', $trackName );
 		
@@ -58,6 +55,9 @@ class GoearClient extends WgetClient implements MusicDownloadClientInterface {
 		
 			$file = $this->downloadTrackByParams( array( 'trackId' => $trackId ) );
 			
+			$this->trackLog->setTrackId( $trackId );
+			$this->trackLog->setTrackName( $file->getFileName() );
+			$this->trackLog->setTrackUrl( $trackUrl );
 			$this->trackLog->setElapsedTime( \time() - $time );
 			$this->trackLog->setFile( $file );
 			

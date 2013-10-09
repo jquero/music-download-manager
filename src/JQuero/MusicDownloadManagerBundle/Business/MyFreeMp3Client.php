@@ -39,25 +39,22 @@ class MyFreeMp3Client extends WgetClient implements MusicDownloadClientInterface
 		return '';
 	}
 	
-	public function getTrackName( $trackUrl ){
+	public function getTrackName( $trackUrl, $trackNameAlt ){
 		try {
 			return $this->getTrackNameFromService( $trackUrl );
 			
-		} catch( HttpException $e ) {
-			return $this->getTrackId( $trackUrl ) . '.mp3';
-			
+		} catch( \Exception $e ) {
+			$this->trackLog->addMessage( $e->getMessage() );
+			return ( empty( $trackNameAlt ) ? $this->getTrackId( $trackUrl ) : $trackNameAlt ). '.mp3';
 		}
 	}
 	
-	public function downloadTrackByUrl( $trackUrl ){
+	public function downloadTrackByUrl( $trackUrl, $trackNameAlt ){
 		$this->trackLog = new MusicDownloadManagerTrackLog();
 		
 		try {
 			$trackId = $this->getTrackId( $trackUrl );
-			$trackName = $this->getTrackName( $trackUrl );
-
-			$this->trackLog->setTrackId( $trackId );
-			$this->trackLog->setTrackName( $trackName );
+			$trackName = $this->getTrackName( $trackUrl, $trackNameAlt );
 
 			$this->addOption( 'filename', $trackName );
 		
@@ -65,6 +62,9 @@ class MyFreeMp3Client extends WgetClient implements MusicDownloadClientInterface
 			
 			$file = $this->downloadTrackByParams( array( 'q' => $trackId ) );
 			
+			$this->trackLog->setTrackId( $trackId );
+			$this->trackLog->setTrackName( $file->getFileName() );
+			$this->trackLog->setTrackUrl( $trackUrl );
 			$this->trackLog->setElapsedTime( \time() - $time );
 			$this->trackLog->setFile( $file );
 			
@@ -96,7 +96,8 @@ class MyFreeMp3Client extends WgetClient implements MusicDownloadClientInterface
 		$data = $this->processResponse( $response );
 		
 		$parser = new MyFreeMp3HtmlParser( $data );
-		return $parser->getTrackName();
+		$parser->parse();
+		return \trim( $parser->getTrackName() );
 	}
 
 }

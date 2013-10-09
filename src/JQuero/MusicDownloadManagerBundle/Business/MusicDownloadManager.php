@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class MusicDownloadManager {
 	
-	protected $maxTracksPerRequest = 100;
+	protected $maxTracksPerRequest = 0;
 	
 	protected $downloadDirectory = '/home/jquero/Descargas/musicDownloadManager';
 	
@@ -37,24 +37,24 @@ class MusicDownloadManager {
 	public function download() {
 		$tracks = $this->getAllTracks();
 		
-		if( count( $tracks ) > $this->maxTracksPerRequest ){
+		if( count( $tracks ) > $this->maxTracksPerRequest && $this->maxTracksPerRequest > 0 ){
 			throw new \Exception( 'Only ' . $this->maxTracksPerRequest . ' tracks per request' );
 		}
 		
-		foreach( $tracks as $key => $trackUrl ){
-			if( strpos( $key, 'download_directory' ) !== false ){
-				$this->setDownloadDirectoryPath( $trackUrl );
-				continue;
+		foreach( $tracks as $directory => $tracks ){
+			$this->setDownloadDirectoryPath( $directory );
+				
+			foreach( $tracks as $trackStruct ){
+
+				$mdmClient = MusicDownloadClientFactory::getInstance()->getMusicDownloadClientFromUrl( $trackStruct[ 'trackUrl' ] );
+				if( !$mdmClient ) continue;
+
+				$mdmClient->addOption( 'directory', $this->getDownloadDirectoryPath() );
+
+				$trackLog = $mdmClient->downloadTrackByUrl( $trackStruct[ 'trackUrl' ], $trackStruct[ 'trackName' ] );
+
+				$this->log->addTrackLog( $trackLog );
 			}
-			
-			$mdmClient = MusicDownloadClientFactory::getInstance()->getMusicDownloadClientFromUrl( $trackUrl );
-			if( !$mdmClient ) continue;
-			
-			$mdmClient->addOption( 'directory', $this->getDownloadDirectoryPath() );
-			
-			$trackLog = $mdmClient->downloadTrackByUrl( $trackUrl );
-			
-			$this->log->addTrackLog( $trackLog );
 		}
 		
 		return $this->log;
@@ -117,12 +117,21 @@ class MusicDownloadManager {
 	protected function parsePlainText( $data ){
 		$hash = array();
 		
+		$currentDirectory = $this->downloadDirectory;
+		$trackName = '';
+		
 		$lines = explode( "\n", $data);
 		foreach( $lines as $line ){
 			if( strpos( $line, ';' ) === 0 ) continue;
 			
 			if( strpos( $line, 'download_directory:' ) !== false ){
-				$hash[ 'download_directory_' . md5( $line ) ] = trim( substr( $line, strlen( 'download_directory:' ) ) );
+				$currentDirectory = trim( substr( $line, strlen( 'download_directory:' ) ) );
+				if( !isset( $hash[ $currentDirectory ] ) ) $hash[ $currentDirectory ] = array();
+				continue;
+			}
+			
+			if( strpos( $line, 'track_name:' ) !== false ){
+				$trackName = trim( substr( $line, strlen( 'track_name:' ) ) );
 				continue;
 			}
 			
@@ -131,7 +140,7 @@ class MusicDownloadManager {
 
 			foreach( $tracks as $track ){
 				$track = 'http' . trim( $track );
-				$hash[ md5( $track ) ] = $track;
+				$hash[ $currentDirectory ][ md5( $track ) ] = array( 'trackUrl' => $track, 'trackName' => $trackName );
 			}
 		}
 		
