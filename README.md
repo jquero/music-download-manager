@@ -129,6 +129,8 @@ The default path of protected variable downloadDirectory will be overrided by de
 You can override the download directory as many times as you want in the track list. 
 All tracks listed after tag download_directory will be downloaded within this directory. 
 
+Note: If you use this bundle via web you must be enought permission into directories where you download the files.
+
 
 track_name
 
