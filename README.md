@@ -92,27 +92,44 @@ TRACKS FILE FORMAT
 
 	download_directory:/home/jquero/Music/Flamenco
 	
+	track_name:Los asdlánticos - Que trata de andalucía
+	
 	http://www.goear.com/listen/1e642a2/que-trata-de-andalucia-los-asdlanticos
+	
+	track_name:Tucara - No puedo quitar mis ojos de ti
 	
 	http://www.goear.com/listen/5b7518f/no-puedo-quitar-mis-ojos-de-ti-tucara-
 	
 	
 	download_directory:/home/jquero/Music/House
 	
+	track_name:Philip Bader, Nicone &amp; Sascha Braemer - Dantze Girl (Original Mix)
+	
 	http://myfreemp3.eu/l/5l3sa9ubmet/
+	
+	track_name:Eric Prydz - Pjanoo (Original Club Mix)
 	
 	http://myfreemp3.eu/l/fsswqklulwu/
 	
 	
 	download_directory:/home/jquero/Music/Flamenco
 	
+	track_name:Mártires del Compás - Colores
+	
 	http://youtu.be/HSwu0WH7Vfc
 	
 
-OPTIONS
-=======
+OPTIONS IN TRACK LIST
+=====================
+
+download_directory
 
 You can override the download directory writting in your tracks list the keyword 'download_directory'. 
 The default path of protected variable downloadDirectory will be overrided by de new path. 
 You can override the download directory as many times as you want in the track list. 
 All tracks listed after tag download_directory will be downloaded within this directory. 
+
+
+track_name
+
+You can set the track name as alternative when the download manager can't get the track name anyway. You can see an example of this in TRACKS FILE FORMAT section.
