@@ -13,9 +13,11 @@ class MyFreeMp3Client extends WgetClient implements MusicDownloadClientInterface
 	
 	protected $serverUrl = 'http://myfreemp3.eu';
 	
-	protected $serverResourceUrl = 'http://5.39.109.235';
+//	protected $serverResourceUrl = 'http://5.39.109.235';
+	protected $serverResourceUrl = 'http://myfreemp3.eu';
 	
-	protected $resourceDownloadTrack = '/dvv.php';
+//	protected $resourceDownloadTrack = '/dvv.php';
+	protected $resourceDownloadTrack = '/files/';
 	
 	protected $tmpDir = '/tmp/musicDownloadManager';
 	
@@ -81,7 +83,12 @@ class MyFreeMp3Client extends WgetClient implements MusicDownloadClientInterface
 	
 	protected function downloadTrackByParams( $params = array() ){
 		$resource = $this->getServerResourceDownloadTrack();
-		return $this->get( $resource, $params );
+		
+		// The params validation we do here because we call get method only with resource URL without query params
+		$this->validateResourceParams( $this->resourceDownloadTrack, $params );
+		
+		$trackId = $params['q'];
+		return $this->get( $resource . $trackId . '/' );
 	}
 
 	protected function getServerResourceDownloadTrack(){

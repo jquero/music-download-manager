@@ -26,12 +26,13 @@ abstract class WgetClient extends AbstractRestClient {
 		$httpGetParams = $this->prepareGetParams( $resource, $params );
 		
 		$directoryName = $this->getDownloadDirectoryPath();
-		if( !\file_exists( $directoryName ) ) mkdir( $directoryName, '755', true );
+		if( !\file_exists( $directoryName ) ) mkdir( $directoryName, 0755, true );
 		
 		$fileName = $this->getFileName();
 		
-		if( !$this->existsFile( $directoryName . DIRECTORY_SEPARATOR . $fileName ) )
-			copy( $resource . $httpGetParams, $directoryName . DIRECTORY_SEPARATOR . $fileName );
+		if( !$this->existsFile( $directoryName . DIRECTORY_SEPARATOR . $fileName ) ){
+			exec( 'wget "' . $resource . $httpGetParams . '" -O "'  . $directoryName . DIRECTORY_SEPARATOR . $fileName . '" -o /dev/null' );
+		}
 		
 		return $this->getDownloadFile();
 	}

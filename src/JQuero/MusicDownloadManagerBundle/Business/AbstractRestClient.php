@@ -78,10 +78,11 @@ abstract class AbstractRestClient {
 		$httpGetParams = '';
 		foreach( $params as $param => $value ){
 			if( $httpGetParams != '' ) $httpGetParams .= '&';
+			else $httpGetParams .= '?';
 			$httpGetParams .= $param . '=' . htmlspecialchars( $value ) ;
 		}
 		
-		return '?' . $httpGetParams;
+		return $httpGetParams;
 	}
 	
 	public function preparePostParams( $resource = '', $params = array() ){
