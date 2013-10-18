@@ -16,7 +16,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new JQuero\BodaBundle\BodaBundle(),
+            new JQuero\WeddingBundle\WeddingBundle(),
 			new JQuero\MusicDownloadManagerBundle\MusicDownloadManagerBundle(),
 //			new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
         );

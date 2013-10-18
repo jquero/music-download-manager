@@ -21,3 +21,4 @@ UPGRADE.md
 nbproject/
 src/Acme
 src/JQuero/BodaBundle
+src/JQuero/WeedingBundle
