@@ -1,11 +1,11 @@
 music-download-manager
 ======================
 
-Symfon2 bundle to download music from youtube.com, goear.es and myfreemp3.eu
+Symfony2 bundle to download music from youtube.com, goear.es and myfreemp3.eu
 
-I do not take responsibility of your use of this code and music you download. Just offer a program for downloading music servers, which allow the download manually.
+I do not take responsibility of your usage of this code and the music you download. Just offer a program for downloading from music servers, which allow manual download.
 
-DESCRIPTION
+Description
 ===========
 
 This is a Symfony2 Bundle to download music from two servers: goear.com, myfreemp3.eu and youtube.
@@ -13,10 +13,10 @@ This is a Symfony2 Bundle to download music from two servers: goear.com, myfreem
 There are two ways to download music. Via web and via console:
 
 
-INSTALL
-=======
+Installing
+==========
 
-1. We supose that you have installed and configured Symfony2.
+1. We suppose that you have installed and configured Symfony2.
 
 2. Download this repository
 	
@@ -48,12 +48,12 @@ INSTALL
 	Change protected variable downloadDirectory.
 	
 
-USAGE
+Usage
 =====
 
-VIA WEB:
+*VIA WEB:*
 
-1. Open yor web browser.
+1. Open your web browser.
 
 2. Go to the project site
 
@@ -64,8 +64,7 @@ VIA WEB:
 3. Put a file as attachement or write the traks list in the textarea. Submit form. The tracks will be downloaded into your server.
 
 
-VIA CONSOLE
-===========
+*VIA CONSOLE:*
 
 1. Open a console.
 
@@ -78,17 +77,17 @@ VIA CONSOLE
 3. Type:
 
 	
-	app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist.txt
+	app/console MusicDownloadManager:MusicDownloadManager /<path_to_file_with_tracks_urls>/playlist.txt
 	
 
 This method accepts several files as parameter.
 
 	
-	app/console MusicDownloadManager:MusicDownloadManager /< path_to_file_with_tracks_urls >/playlist1.txt /< path_to_file_with_tracks_urls >/playlist2.txt
+	app/console MusicDownloadManager:MusicDownloadManager /<path_to_file_with_tracks_urls>/playlist1.txt /<path_to_file_with_tracks_urls>/playlist2.txt
 	
 
-TRACKS FILE FORMAT
-==================
+Track file format
+=================
 
 	download_directory:/home/jquero/Music/Flamenco
 	
@@ -119,7 +118,7 @@ TRACKS FILE FORMAT
 	http://youtu.be/HSwu0WH7Vfc
 	
 
-OPTIONS IN TRACK LIST
+Options in track list
 =====================
 
 download_directory
@@ -135,3 +134,26 @@ Note: If you use this bundle via web you must be enought permission into directo
 track_name
 
 You can set the track name as alternative when the download manager can't get the track name anyway. You can see an example of this in TRACKS FILE FORMAT section.
+
+License
+=======
+
+    Copyright (c) 2004-2013 Fabien Potencier
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is furnished
+    to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
