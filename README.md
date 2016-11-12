@@ -71,7 +71,7 @@ Usage
 2. Go to your project root folder. For example:
 
 		
-	cd < synfony_project_directory >
+	cd <symfony_project_directory>
 	
 
 3. Type:
